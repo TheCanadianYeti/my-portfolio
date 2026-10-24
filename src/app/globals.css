@@ -5,25 +5,59 @@
 @layer utilities {
   .crt-scanlines {
     background: linear-gradient(
-      rgba(18, 16, 16, 0) 50%, 
+      rgba(18, 16, 16, 0) 50%,
       rgba(0, 0, 0, 0.25) 50%
     ), linear-gradient(
       90deg,
-      rgba(255, 0, 0, 0.03),
-      rgba(0, 255, 0, 0.01),
-      rgba(0, 0, 255, 0.03)
+      rgba(0, 240, 255, 0.02),
+      rgba(56, 189, 248, 0.01),
+      rgba(37, 99, 235, 0.01)
     );
-    background-size: 100% 3px, 6px 100%;
+    background-size: 100% 4px, 6px 100%;
+  }
+
+  .techno-cut {
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+  }
+
+  .techno-cut-both {
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%);
+  }
+
+  .techno-glow-cyan {
+    box-shadow: 0 0 16px rgba(0, 240, 255, 0.3);
+  }
+
+  .techno-glow-blue {
+    box-shadow: 0 0 16px rgba(56, 189, 248, 0.3);
   }
 }
 
+body {
+  background-color: #050811;
+  color: #f1f5f9;
+  overflow-x: hidden;
+}
+
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 7px;
+  height: 7px;
 }
+
 ::-webkit-scrollbar-track {
-  background: #0a0a0c;
+  background: #050811;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #00ff66;
+  background: #00f0ff;
   border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #38bdf8;
+}
+
+::selection {
+  background-color: #00f0ff;
+  color: #050811;
 }

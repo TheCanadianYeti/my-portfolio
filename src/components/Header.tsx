@@ -1,63 +1,130 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { playCyberBlip, playSuccessChime, setSoundEnabled, getSoundEnabled } from '@/lib/sound';
 
 interface HeaderProps {
-    activeTab: string;
-    setActiveTab: (tab: string) => void;
-    openResumeModal: () => void;
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
+  openResumeModal: () => void;
 }
 
 export default function Header({ activeTab, setActiveTab, openResumeModal }: HeaderProps) {
-    const navItems = [
-        { id: 'home', label: '// 01. HOME' },
-        { id: 'about', label: '// 02. ABOUT' },
-        { id: 'projects', label: '// 03. PROJECTS' },
-        { id: 'contact', label: '// 04. CONTACT' },
-    ];
+  const [sfxOn, setSfxOn] = useState(false);
 
-    return (
-        <header className="w-full border-b border-emerald-900/60 bg-black/90 px-4 md:px-8 py-4 flex flex-col md:flex-row items-center justify-between gap-4 sticky top-0 z-40 backdrop-blur-md">
-            <div onClick={() => setActiveTab('home')} className="flex items-center gap-3 cursor-pointer group">
-                <div className="w-9 h-9 relative flex items-center justify-center border border-emerald-500/50 bg-emerald-950/40 rounded p-1 group-hover:border-emerald-400 transition-colors">
-                    <Image
-                        src="/logo.png"
-                        alt="Marcus Podnar Logo"
-                        width={28}
-                        height={28}
-                        className="object-contain filter drop-shadow-[0_0_4px_rgba(0,255,102,0.6)]"
-                    />
-                </div>
-                <div>
-                    <h1 className="text-white font-bold text-sm tracking-wider flex items-center gap-1.5 font-mono">
-                        <span className="text-emerald-400 font-bold">&gt;_</span> Marcus Podnar
-                    </h1>
-                    <p className="text-[11px] text-emerald-400 font-medium font-mono">Software Dev & Network Engineer</p>
-                </div>
+  useEffect(() => {
+    setSfxOn(getSoundEnabled());
+  }, []);
+
+  const toggleSound = () => {
+    const nextState = !sfxOn;
+    setSfxOn(nextState);
+    setSoundEnabled(nextState);
+    if (nextState) {
+      playSuccessChime();
+    }
+  };
+
+  const navItems = [
+    { id: 'home', label: '// 01. HOME' },
+    { id: 'about', label: '// 02. ABOUT' },
+    { id: 'projects', label: '// 03. PROJECTS' },
+    { id: 'contact', label: '// 04. CONTACT' },
+  ];
+
+  const handleNavClick = (tabId: string) => {
+    playCyberBlip(920);
+    setActiveTab(tabId);
+  };
+
+  const handleResumeClick = () => {
+    playSuccessChime();
+    openResumeModal();
+  };
+
+  return (
+    <header className="w-full border-b-2 border-[#1e2b4d] bg-[#050811]/95 sticky top-0 z-40 backdrop-blur-md shadow-[0_4px_24px_rgba(0,0,0,0.85)]">
+      {/* Top Techno Blue Line */}
+      <div className="h-[2px] w-full bg-gradient-to-r from-[#00f0ff] via-[#38bdf8] to-[#2563eb]" />
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex flex-col sm:flex-row items-center justify-between gap-3">
+        {/* Brand Identity */}
+        <button
+          type="button"
+          onClick={() => handleNavClick('home')}
+          className="flex items-center gap-3 cursor-pointer group text-left focus:outline-none"
+        >
+          <div className="w-10 h-10 relative flex items-center justify-center border-2 border-[#00f0ff] bg-[#0a1020] p-1 group-hover:border-[#38bdf8] transition-all techno-cut shadow-cyber-cyan">
+            <Image
+              src="/logo.png"
+              alt="Marcus Podnar Logo"
+              width={26}
+              height={26}
+              className="object-contain filter drop-shadow-[0_0_8px_rgba(0,240,255,0.8)]"
+              priority
+            />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-white font-black text-sm tracking-wide font-mono">
+                MARCUS PODNAR
+              </span>
+              <span className="text-[10px] bg-[#00f0ff] text-[#050811] px-1.5 py-0.2 font-black techno-cut">
+                YETI
+              </span>
             </div>
+            <p className="text-[11px] text-[#38bdf8] font-semibold font-mono tracking-tight">
+              Software Dev • Networks • TPM Intern @ Scotiabank
+            </p>
+          </div>
+        </button>
 
-            <nav className="flex flex-wrap items-center gap-2 text-xs font-mono">
-                {navItems.map((item) => (
-                    <button
-                        key={item.id}
-                        onClick={() => setActiveTab(item.id)}
-                        className={`px-3 py-1.5 rounded transition-all ${
-                            activeTab === item.id
-                                ? 'bg-emerald-500 text-black font-bold shadow-md shadow-emerald-500/20'
-                                : 'bg-emerald-950/30 text-emerald-300 border border-emerald-900/60 hover:border-emerald-500 hover:text-white'
-                        }`}
-                    >
-                        {item.label}
-                    </button>
-                ))}
-                <button
-                    onClick={openResumeModal}
-                    className="px-3 py-1.5 rounded bg-emerald-400 text-black font-bold hover:bg-emerald-300 transition-colors"
-                >
-                    [ GET RESUME ]
-                </button>
-            </nav>
-        </header>
-    );
+        {/* Navigation Tabs, Audio SFX toggle & Resume CTA */}
+        <nav className="flex flex-wrap items-center gap-2 text-xs font-mono">
+          {navItems.map((item) => {
+            const isActive = activeTab === item.id;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => handleNavClick(item.id)}
+                className={`px-3 py-1.5 font-extrabold transition-all techno-cut ${
+                  isActive
+                    ? 'bg-[#00f0ff] text-[#050811] border-2 border-[#00f0ff] shadow-cyber-cyan'
+                    : 'bg-[#0a1020] text-zinc-300 border border-[#1e2b4d] hover:border-[#00f0ff] hover:text-[#00f0ff]'
+                }`}
+              >
+                {item.label}
+              </button>
+            );
+          })}
+
+          {/* Sound FX Toggle Button */}
+          <button
+            type="button"
+            onClick={toggleSound}
+            title={sfxOn ? 'Disable Cyber Sound Effects' : 'Enable Cyber Sound Effects'}
+            className={`px-2.5 py-1.5 border text-[11px] font-bold techno-cut transition-all flex items-center gap-1 ${
+              sfxOn
+                ? 'bg-[#00ffcc]/15 border-[#00ffcc] text-[#00ffcc] shadow-[0_0_10px_rgba(0,255,204,0.3)]'
+                : 'bg-[#0a1020] border-[#1e2b4d] text-zinc-400 hover:text-white hover:border-zinc-500'
+            }`}
+          >
+            <span>{sfxOn ? '🔊' : '🔈'}</span>
+            <span className="hidden md:inline">{sfxOn ? 'SFX ON' : 'SFX OFF'}</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={handleResumeClick}
+            className="px-3.5 py-1.5 bg-[#38bdf8] text-[#050811] font-black hover:bg-[#00f0ff] transition-all shadow-cyber-blue flex items-center gap-1.5 techno-cut border border-[#38bdf8]"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-[#050811] animate-ping" />
+            <span>[ GET RESUME ]</span>
+          </button>
+        </nav>
+      </div>
+    </header>
+  );
 }
