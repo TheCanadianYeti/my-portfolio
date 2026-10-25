@@ -1,17 +1,14 @@
 export const PERSONAL_DATA = {
   name: 'Marcus Podnar',
   preferredName: 'Yeti',
-  title: 'Software Developer, Network Systems Engineer & Incoming TPM Intern',
-  incomingRole: 'Technical Product Manager (TPM) Intern @ Scotiabank (Winter 2027)',
+  title: 'Software Developer & Network Systems Engineer',
   handle: 'TheCanadianYeti',
   location: 'Ontario, Canada',
   timezone: 'Eastern Time (EST)',
   email: 'podnar.dev@gmail.com',
   github: 'https://github.com/TheCanadianYeti',
   linkedin: 'https://www.linkedin.com/in/marcus-podnar/',
-  status: 'Incoming TPM Intern @ Scotiabank // Winter 2027',
   bio: [
-    'Incoming Technical Product Manager (TPM) Intern at Scotiabank for the Winter 2027 term.',
     'Student in the Software Development & Network Engineering (SDNE) program at Sheridan College.',
     'Enterprise IT Support Contractor managing workstation diagnostics, hardware deployment, and system uptime.',
     'Systems builder operating self-hosted homelab infrastructure (Proxmox VE, TrueNAS Core, Docker, Tailscale WireGuard mesh).',

@@ -4,28 +4,14 @@ import React, { useState } from 'react';
 import { PERSONAL_DATA } from '@/config/personal';
 
 export default function ContactSection() {
-  const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
-  const [contactStatus, setContactStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [contactForm, setContactForm] = useState({ name: '', message: '' });
+  const emailSubject = `Portfolio message from ${contactForm.name.trim() || 'website visitor'}`;
+  const emailBody = `Hey Marcus,\n\nMy name is ${contactForm.name.trim()},\n\n${contactForm.message.trim()}\n\nThanks,\n${contactForm.name.trim()}`;
+  const emailDraftHref = `mailto:${PERSONAL_DATA.email}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 
-  const handleContactSubmit = async (e: React.FormEvent) => {
+  const handleContactSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setContactStatus('sending');
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(contactForm),
-      });
-
-      if (res.ok) {
-        setContactStatus('success');
-        setContactForm({ name: '', email: '', message: '' });
-      } else {
-        setContactStatus('error');
-      }
-    } catch {
-      setContactStatus('error');
-    }
+    window.location.href = emailDraftHref;
   };
 
   return (
@@ -39,12 +25,12 @@ export default function ContactSection() {
           </h2>
         </div>
         <span className="text-xs text-zinc-400 font-semibold">
-          {"// Transient Memory Buffer & Direct Channels"}
+          {"// Email Draft & Direct Channels"}
         </span>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-        {/* Transient Contact Form (lg:col-span-7) */}
+        {/* Email Draft Form (lg:col-span-7) */}
         <form
           onSubmit={handleContactSubmit}
           className="lg:col-span-7 space-y-4 bg-[#0a1020]/90 p-6 sm:p-8 border-2 border-[#1e2b4d] hover:border-[#00f0ff]/60 transition-colors techno-cut shadow-xl backdrop-blur-md relative flex flex-col justify-between"
@@ -55,7 +41,7 @@ export default function ContactSection() {
                 {"// TRANSMISSION FORM"}
               </span>
               <span className="text-[10px] bg-[#00ffcc]/10 text-[#00ffcc] px-2 py-0.5 border border-[#00ffcc]/40 font-bold techno-cut">
-                ZERO RETENTION BUFFER
+                NO SERVER-SIDE TRANSMISSION
               </span>
             </div>
 
@@ -64,34 +50,23 @@ export default function ContactSection() {
               <input
                 type="text"
                 required
+                autoComplete="name"
                 value={contactForm.name}
                 onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
                 className="w-full bg-[#050811] border border-[#1e2b4d] text-white p-3 text-xs font-mono focus:border-[#00f0ff] focus:outline-none techno-cut transition-colors font-medium placeholder-zinc-600"
-                placeholder="e.g. Technical Recruiter / Engineering Manager"
+                placeholder="Your name"
               />
             </div>
 
             <div>
-              <label className="block text-xs text-zinc-300 font-bold mb-1.5">$ SENDER_EMAIL:</label>
-              <input
-                type="email"
-                required
-                value={contactForm.email}
-                onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                className="w-full bg-[#050811] border border-[#1e2b4d] text-white p-3 text-xs font-mono focus:border-[#00f0ff] focus:outline-none techno-cut transition-colors font-medium placeholder-zinc-600"
-                placeholder="e.g. recruiter@company.com"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs text-zinc-300 font-bold mb-1.5">$ TRANSMISSION_PAYLOAD:</label>
+              <label className="block text-xs text-zinc-300 font-bold mb-1.5">$ MESSAGE:</label>
               <textarea
                 required
-                rows={4}
+                rows={6}
                 value={contactForm.message}
                 onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                 className="w-full bg-[#050811] border border-[#1e2b4d] text-white p-3 text-xs font-mono focus:border-[#00f0ff] focus:outline-none techno-cut transition-colors font-medium placeholder-zinc-600"
-                placeholder="Enter inquiry, interview details, or message payload..."
+                placeholder="Write your message..."
               />
             </div>
           </div>
@@ -99,30 +74,15 @@ export default function ContactSection() {
           <div className="space-y-3 pt-2">
             <button
               type="submit"
-              disabled={contactStatus === 'sending'}
-              className="w-full py-3 bg-[#00f0ff] text-[#050811] font-black text-xs hover:bg-[#38bdf8] transition-all shadow-cyber-cyan techno-cut disabled:opacity-50 uppercase tracking-wider flex items-center justify-center gap-2"
+              className="w-full py-3 bg-[#00f0ff] text-[#050811] font-black text-xs hover:bg-[#38bdf8] transition-all shadow-cyber-cyan techno-cut uppercase tracking-wider flex items-center justify-center gap-2"
             >
-              <span>{contactStatus === 'sending' ? 'TRANSMITTING VIA MEMORY BUFFER...' : '[ TRANSMIT MESSAGE ]'}</span>
+              <span>[ OPEN EMAIL DRAFT ]</span>
               <span className="text-sm font-black">&rarr;</span>
             </button>
 
-            {contactStatus === 'success' && (
-              <div className="text-xs text-[#00ffcc] bg-[#00ffcc]/10 p-3.5 border border-[#00ffcc]/50 techno-cut space-y-1">
-                <p className="font-extrabold">✔ Transmission routed directly to {PERSONAL_DATA.email}</p>
-                <p className="text-zinc-300 text-[11px]">
-                  Server memory buffer flushed. Zero message logs or telemetry retained.
-                </p>
-              </div>
-            )}
-
-            {contactStatus === 'error' && (
-              <div className="text-xs text-[#f87171] bg-red-950/40 p-3.5 border border-red-800 techno-cut space-y-1">
-                <p className="font-extrabold">✖ Transmission failed to dispatch.</p>
-                <p className="text-zinc-300 text-[11px]">
-                  Please contact Marcus directly at {PERSONAL_DATA.email}.
-                </p>
-              </div>
-            )}
+            <p className="text-[11px] text-zinc-400">
+              Opens an email draft addressed to Marcus. Your email app will use your account to send it.
+            </p>
           </div>
         </form>
 
@@ -139,7 +99,7 @@ export default function ContactSection() {
 
             <div className="space-y-3.5 text-xs">
               <div>
-                <span className="text-zinc-500 block text-[11px] font-bold">PRIMARY INBOX:</span>
+                <span className="text-zinc-500 block text-[11px] font-bold">PRIMARY PROFESSIONAL INBOX:</span>
                 <a
                   href={`mailto:${PERSONAL_DATA.email}`}
                   className="text-white hover:text-[#00f0ff] underline font-extrabold text-sm transition-colors"
@@ -180,24 +140,13 @@ export default function ContactSection() {
           <div className="bg-[#0a1020]/90 border-2 border-[#1e2b4d] p-6 techno-cut space-y-3.5 backdrop-blur-md">
             <div className="flex items-center justify-between border-b border-[#1e2b4d] pb-2">
               <span className="text-xs text-white font-black uppercase tracking-wider">
-                {"// CAREER & LOGISTICS"}
-              </span>
-              <span className="text-[10px] bg-[#00ffcc]/10 text-[#00ffcc] border border-[#00ffcc]/40 px-2 py-0.5 font-bold techno-cut">
-                CONFIRMED
+                {"// EDUCATION & LOCATION"}
               </span>
             </div>
 
             <div className="space-y-2 text-xs text-zinc-300">
               <div className="flex justify-between items-center py-1 border-b border-[#161c2d]">
-                <span className="text-zinc-400 font-semibold">UPCOMING ROLE:</span>
-                <span className="text-[#00ffcc] font-bold">TPM Intern @ Scotiabank</span>
-              </div>
-              <div className="flex justify-between items-center py-1 border-b border-[#161c2d]">
-                <span className="text-zinc-400 font-semibold">START TERM:</span>
-                <span className="text-white font-bold">Winter 2027</span>
-              </div>
-              <div className="flex justify-between items-center py-1 border-b border-[#161c2d]">
-                <span className="text-zinc-400 font-semibold">CAMPUS:</span>
+                <span className="text-zinc-400 font-semibold">PROGRAM:</span>
                 <span className="text-[#38bdf8] font-bold">Sheridan College (SDNE)</span>
               </div>
               <div className="flex justify-between items-center py-1">

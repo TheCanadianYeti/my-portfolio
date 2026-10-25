@@ -69,16 +69,12 @@ export default function Home() {
         }}
       />
 
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 space-y-10 relative z-10">
+      <main className="flex-1 max-w-screen-2xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10 relative z-10">
         {/* Render Home Landing View: ONLY TerminalHero and Executive Summary */}
         {activeTab === 'home' && (
           <div className="space-y-8">
             <TerminalHero
               setActiveTab={handleTabChange}
-              openResumeModal={() => {
-                playSuccessChime();
-                setIsResumeModalOpen(true);
-              }}
             />
 
             {/* High-Impact Executive Briefing in Candidate's First-Person Voice */}
@@ -93,14 +89,11 @@ export default function Home() {
                     {"// EXECUTIVE BRIEFING & CANDIDATE HIGHLIGHTS"}
                   </h2>
                 </div>
-                <span className="text-[10px] bg-[#00ffcc]/10 text-[#00ffcc] border border-[#00ffcc]/40 px-2.5 py-0.5 font-bold techno-cut">
-                  SCOTIABANK TPM INTERN // WINTER 2027
-                </span>
               </div>
 
               {/* First-person narrative */}
               <p className="text-xs sm:text-sm text-zinc-200 leading-relaxed font-medium">
-                I am an incoming Technical Product/Program Manager (TPM) intern at Scotiabank for the Winter 2027 term and a student in the Software Development &amp; Network Engineering (SDNE) program at Sheridan College. I combine hands-on enterprise IT support contractor experience with low-level systems engineering (Proxmox, TrueNAS, Tailscale mesh) and full-stack software development (Java, Python, TypeScript, React, Next.js).
+                I am a student in the Software Development &amp; Network Engineering (SDNE) program at Sheridan College. I combine hands-on enterprise IT support contractor experience with low-level systems engineering (Proxmox, TrueNAS, Tailscale mesh) and full-stack software development (Java, Python, TypeScript, React, Next.js).
               </p>
 
               {/* 3 Interactive Discipline Pillar Cards */}
@@ -110,7 +103,7 @@ export default function Home() {
                     playCyberBlip(850);
                     handleTabChange('about');
                   }}
-                  className="bg-[#050811]/90 p-4 border border-[#1e2b4d] hover:border-[#00f0ff] transition-all cursor-pointer techno-cut space-y-2 group/card shadow-lg"
+                  className="bg-[#050811]/90 p-4 border border-[#1e2b4d] hover:border-[#00f0ff] transition-all cursor-pointer techno-cut group/card shadow-lg flex h-full flex-col"
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] text-[#00f0ff] font-black uppercase tracking-wider block">
@@ -120,10 +113,10 @@ export default function Home() {
                       &rarr;
                     </span>
                   </div>
-                  <p className="text-xs text-zinc-300 leading-relaxed font-medium">
-                    Incoming TPM Intern at Scotiabank. I bridge engineering depth with product delivery, technical trade-offs, and cross-functional team execution.
+                  <p className="mt-2 flex-1 text-xs text-zinc-300 leading-relaxed font-medium">
+                    I bridge engineering depth with product delivery, technical trade-offs, and cross-functional team execution.
                   </p>
-                  <span className="text-[10px] text-[#00f0ff] font-semibold underline block pt-1">
+                  <span className="mt-auto pt-2 text-[10px] text-[#00f0ff] font-semibold underline block">
                     View Leadership Background &rarr;
                   </span>
                 </div>
@@ -133,7 +126,7 @@ export default function Home() {
                     playCyberBlip(850);
                     handleTabChange('projects');
                   }}
-                  className="bg-[#050811]/90 p-4 border border-[#1e2b4d] hover:border-[#38bdf8] transition-all cursor-pointer techno-cut space-y-2 group/card shadow-lg"
+                  className="bg-[#050811]/90 p-4 border border-[#1e2b4d] hover:border-[#38bdf8] transition-all cursor-pointer techno-cut group/card shadow-lg flex h-full flex-col"
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] text-[#38bdf8] font-black uppercase tracking-wider block">
@@ -143,10 +136,10 @@ export default function Home() {
                       &rarr;
                     </span>
                   </div>
-                  <p className="text-xs text-zinc-300 leading-relaxed font-medium">
+                  <p className="mt-2 flex-1 text-xs text-zinc-300 leading-relaxed font-medium">
                     Strong object-oriented architecture in Java, automated cryptography engines, Python desktop utilities, and production Next.js 14 web apps.
                   </p>
-                  <span className="text-[10px] text-[#38bdf8] font-semibold underline block pt-1">
+                  <span className="mt-auto pt-2 text-[10px] text-[#38bdf8] font-semibold underline block">
                     Explore Code Archives &rarr;
                   </span>
                 </div>
@@ -156,7 +149,7 @@ export default function Home() {
                     playCyberBlip(850);
                     handleTabChange('about');
                   }}
-                  className="bg-[#050811]/90 p-4 border border-[#1e2b4d] hover:border-[#00ffcc] transition-all cursor-pointer techno-cut space-y-2 group/card shadow-lg"
+                  className="bg-[#050811]/90 p-4 border border-[#1e2b4d] hover:border-[#00ffcc] transition-all cursor-pointer techno-cut group/card shadow-lg flex h-full flex-col"
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] text-[#00ffcc] font-black uppercase tracking-wider block">
@@ -166,10 +159,10 @@ export default function Home() {
                       &rarr;
                     </span>
                   </div>
-                  <p className="text-xs text-zinc-300 leading-relaxed font-medium">
+                  <p className="mt-2 flex-1 text-xs text-zinc-300 leading-relaxed font-medium">
                     Enterprise IT support contractor, Linux administration, Proxmox VE hypervisors, TrueNAS Core storage, Caddy proxy, and Wireshark inspection.
                   </p>
-                  <span className="text-[10px] text-[#00ffcc] font-semibold underline block pt-1">
+                  <span className="mt-auto pt-2 text-[10px] text-[#00ffcc] font-semibold underline block">
                     Audit Systems &amp; Skills &rarr;
                   </span>
                 </div>

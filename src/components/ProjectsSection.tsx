@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { PROJECTS_DATA, Project } from '@/config/projects';
+import { PERSONAL_DATA } from '@/config/personal';
 
 export default function ProjectsSection() {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
@@ -78,6 +79,18 @@ export default function ProjectsSection() {
             );
           })}
         </div>
+      </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h3 className="text-lg font-black text-white tracking-wide"><b>My Top Projects</b></h3>
+        <a
+          href={PERSONAL_DATA.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs text-[#00f0ff] font-bold underline underline-offset-4 hover:text-white transition-colors"
+        >
+          Visit my GitHub profile ↗
+        </a>
       </div>
 
       {/* Active Filter Indicators */}
@@ -187,7 +200,7 @@ export default function ProjectsSection() {
                       rel="noopener noreferrer"
                       className="text-[11px] bg-[#00f0ff]/10 hover:bg-[#00f0ff] text-[#00f0ff] hover:text-[#050811] border border-[#00f0ff]/50 px-2.5 py-1 font-bold techno-cut transition-all shadow-cyber-cyan"
                     >
-                      Live Demo ↗
+                      {project.id === 'my-portfolio' ? 'Your On It ↗' : 'Live Demo ↗'}
                     </a>
                   )}
                 </div>
@@ -288,7 +301,7 @@ export default function ProjectsSection() {
                   rel="noopener noreferrer"
                   className="px-5 py-2.5 bg-[#38bdf8] text-[#050811] font-extrabold hover:bg-[#00f0ff] transition-all techno-cut shadow-cyber-blue flex items-center gap-2 uppercase tracking-wider"
                 >
-                  <span>Launch Live Web App</span>
+                  <span>{activeProjectModal.id === 'my-portfolio' ? 'View This Project' : 'Launch Live Web App'}</span>
                   <span className="text-sm font-black">&rarr;</span>
                 </a>
               )}

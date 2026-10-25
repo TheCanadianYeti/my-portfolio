@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { Menu, Volume2, VolumeX, X } from 'lucide-react';
 import { playCyberBlip, playSuccessChime, setSoundEnabled, getSoundEnabled } from '@/lib/sound';
 
 interface HeaderProps {
@@ -12,9 +13,12 @@ interface HeaderProps {
 
 export default function Header({ activeTab, setActiveTab, openResumeModal }: HeaderProps) {
   const [sfxOn, setSfxOn] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    setSfxOn(getSoundEnabled());
+    const soundEnabled = getSoundEnabled();
+    setSoundEnabled(soundEnabled);
+    setSfxOn(soundEnabled);
   }, []);
 
   const toggleSound = () => {
@@ -36,10 +40,12 @@ export default function Header({ activeTab, setActiveTab, openResumeModal }: Hea
   const handleNavClick = (tabId: string) => {
     playCyberBlip(920);
     setActiveTab(tabId);
+    setIsMobileMenuOpen(false);
   };
 
   const handleResumeClick = () => {
     playSuccessChime();
+    setIsMobileMenuOpen(false);
     openResumeModal();
   };
 
@@ -48,7 +54,8 @@ export default function Header({ activeTab, setActiveTab, openResumeModal }: Hea
       {/* Top Techno Blue Line */}
       <div className="h-[2px] w-full bg-gradient-to-r from-[#00f0ff] via-[#38bdf8] to-[#2563eb]" />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+        <div className="flex items-center justify-between gap-3">
         {/* Brand Identity */}
         <button
           type="button"
@@ -75,13 +82,13 @@ export default function Header({ activeTab, setActiveTab, openResumeModal }: Hea
               </span>
             </div>
             <p className="text-[11px] text-[#38bdf8] font-semibold font-mono tracking-tight">
-              Software Dev • Networks • TPM Intern @ Scotiabank
+              Software Developer • Network Systems Engineer
             </p>
           </div>
         </button>
 
         {/* Navigation Tabs, Audio SFX toggle & Resume CTA */}
-        <nav className="flex flex-wrap items-center gap-2 text-xs font-mono">
+        <nav className="hidden lg:flex flex-wrap lg:flex-nowrap items-center justify-center gap-1.5 lg:gap-2 text-[10px] lg:text-xs font-mono">
           {navItems.map((item) => {
             const isActive = activeTab === item.id;
             return (
@@ -89,7 +96,7 @@ export default function Header({ activeTab, setActiveTab, openResumeModal }: Hea
                 key={item.id}
                 type="button"
                 onClick={() => handleNavClick(item.id)}
-                className={`px-3 py-1.5 font-extrabold transition-all techno-cut ${
+                className={`px-2 lg:px-3 py-1.5 font-extrabold transition-all techno-cut ${
                   isActive
                     ? 'bg-[#00f0ff] text-[#050811] border-2 border-[#00f0ff] shadow-cyber-cyan'
                     : 'bg-[#0a1020] text-zinc-300 border border-[#1e2b4d] hover:border-[#00f0ff] hover:text-[#00f0ff]'
@@ -105,25 +112,105 @@ export default function Header({ activeTab, setActiveTab, openResumeModal }: Hea
             type="button"
             onClick={toggleSound}
             title={sfxOn ? 'Disable Cyber Sound Effects' : 'Enable Cyber Sound Effects'}
-            className={`px-2.5 py-1.5 border text-[11px] font-bold techno-cut transition-all flex items-center gap-1 ${
+            aria-label={sfxOn ? 'Disable sound effects' : 'Enable sound effects'}
+            aria-pressed={sfxOn}
+            className={`h-8 w-8 shrink-0 border flex items-center justify-center techno-cut transition-all ${
               sfxOn
                 ? 'bg-[#00ffcc]/15 border-[#00ffcc] text-[#00ffcc] shadow-[0_0_10px_rgba(0,255,204,0.3)]'
                 : 'bg-[#0a1020] border-[#1e2b4d] text-zinc-400 hover:text-white hover:border-zinc-500'
             }`}
           >
-            <span>{sfxOn ? '🔊' : '🔈'}</span>
-            <span className="hidden md:inline">{sfxOn ? 'SFX ON' : 'SFX OFF'}</span>
+            {sfxOn ? <Volume2 size={15} aria-hidden="true" /> : <VolumeX size={15} aria-hidden="true" />}
           </button>
 
           <button
             type="button"
             onClick={handleResumeClick}
-            className="px-3.5 py-1.5 bg-[#38bdf8] text-[#050811] font-black hover:bg-[#00f0ff] transition-all shadow-cyber-blue flex items-center gap-1.5 techno-cut border border-[#38bdf8]"
+            className="px-2.5 lg:px-3.5 py-1.5 shrink-0 bg-[#38bdf8] text-[#050811] font-black hover:bg-[#00f0ff] transition-all shadow-cyber-blue flex items-center gap-1.5 techno-cut border border-[#38bdf8]"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-[#050811] animate-ping" />
             <span>[ GET RESUME ]</span>
           </button>
         </nav>
+
+        <button
+          type="button"
+          onClick={() => setIsMobileMenuOpen((open) => !open)}
+          aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={isMobileMenuOpen}
+          aria-controls="mobile-navigation"
+          className={`group relative lg:hidden h-10 w-10 shrink-0 overflow-hidden border bg-[#0a1020] text-[#00f0ff] flex items-center justify-center techno-cut transition-all duration-300 hover:border-[#00f0ff] hover:shadow-cyber-cyan ${
+            isMobileMenuOpen ? 'border-[#00f0ff] shadow-cyber-cyan' : 'border-[#1e2b4d]'
+          }`}
+        >
+          <span
+            aria-hidden="true"
+            className={`absolute inset-0 bg-[#00f0ff]/10 transition-transform duration-300 ${
+              isMobileMenuOpen ? 'translate-y-0' : 'translate-y-full group-hover:translate-y-0'
+            }`}
+          />
+          <span className="relative flex items-center justify-center">
+            <Menu
+              size={20}
+              aria-hidden="true"
+              className={`absolute transition-all duration-300 ${
+                isMobileMenuOpen ? 'rotate-90 scale-0 opacity-0' : 'rotate-0 scale-100 opacity-100'
+              }`}
+            />
+            <X
+              size={20}
+              aria-hidden="true"
+              className={`transition-all duration-300 ${
+                isMobileMenuOpen ? 'rotate-0 scale-100 opacity-100' : '-rotate-90 scale-0 opacity-0'
+              }`}
+            />
+          </span>
+        </button>
+        </div>
+
+        {isMobileMenuOpen && (
+          <nav
+            id="mobile-navigation"
+            className="animate-mobile-menu-in origin-top lg:hidden mt-3 grid grid-cols-1 gap-2 border-t border-[#1e2b4d] pt-3 text-xs font-mono motion-reduce:animate-none"
+          >
+            {navItems.map((item) => {
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => handleNavClick(item.id)}
+                  className={`w-full px-3 py-2.5 text-left font-extrabold transition-all techno-cut ${
+                    isActive
+                      ? 'bg-[#00f0ff] text-[#050811] border-2 border-[#00f0ff] shadow-cyber-cyan'
+                      : 'bg-[#0a1020] text-zinc-300 border border-[#1e2b4d] hover:border-[#00f0ff] hover:text-[#00f0ff]'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              );
+            })}
+
+            <button
+              type="button"
+              onClick={toggleSound}
+              aria-pressed={sfxOn}
+              className="w-full px-3 py-2.5 text-left bg-[#0a1020] border border-[#1e2b4d] text-zinc-300 flex items-center gap-2 techno-cut hover:border-[#00f0ff] transition-colors"
+            >
+              {sfxOn ? <Volume2 size={16} aria-hidden="true" /> : <VolumeX size={16} aria-hidden="true" />}
+              <span>{sfxOn ? 'Disable sound effects' : 'Enable sound effects'}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleResumeClick}
+              className="w-full px-3 py-2.5 text-left bg-[#38bdf8] text-[#050811] font-black flex items-center gap-2 techno-cut border border-[#38bdf8]"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[#050811] animate-ping" />
+              <span>[ GET RESUME ]</span>
+            </button>
+          </nav>
+        )}
       </div>
     </header>
   );

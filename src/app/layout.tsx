@@ -9,9 +9,9 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'Marcus Podnar | Software Developer, Network Systems & Incoming TPM @ Scotiabank',
+  title: 'Marcus Podnar | Software Developer & Network Systems Engineer',
   description:
-    'Portfolio for Marcus Podnar (Yeti) — Incoming Technical Product Manager Intern at Scotiabank (Winter 2027), Sheridan College SDNE student, and software & systems engineer.',
+    'Portfolio for Marcus Podnar (Yeti), Sheridan College SDNE student, software developer, and network systems engineer.',
   icons: {
     icon: '/favicon.ico',
   },

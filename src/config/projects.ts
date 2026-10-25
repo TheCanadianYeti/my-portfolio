@@ -74,6 +74,7 @@ export const PROJECTS_DATA: Project[] = [
     tags: ['Next.js 14', 'TypeScript', 'Tailwind CSS', 'Caddy', 'Canvas API', 'Nodemailer'],
     category: 'Full-Stack',
     githubUrl: 'https://github.com/TheCanadianYeti/my-portfolio',
+    liveUrl: '/',
     featured: true,
     status: 'Deployed',
   },

@@ -71,14 +71,9 @@ export default function AboutSection() {
             {"// 01. SYSTEM_SPECS"}
           </h2>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-zinc-400 font-semibold">
-            {"// Candidate Dossier & Competency Matrix"}
-          </span>
-          <span className="text-[10px] bg-[#00ffcc]/10 border border-[#00ffcc]/40 text-[#00ffcc] px-2 py-0.5 font-bold techno-cut">
-            TPM INTERN // SCOTIABANK 2027
-          </span>
-        </div>
+        <span className="text-xs text-zinc-400 font-semibold">
+          {"// Candidate Dossier & Competency Matrix"}
+        </span>
       </div>
 
       {/* Candidate Dossier & Background */}

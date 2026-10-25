@@ -3,6 +3,22 @@
 @tailwind utilities;
 
 @layer utilities {
+  @keyframes mobile-menu-in {
+    from {
+      opacity: 0;
+      transform: translateY(-0.5rem) scaleY(0.96);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0) scaleY(1);
+    }
+  }
+
+  .animate-mobile-menu-in {
+    animation: mobile-menu-in 220ms ease-out both;
+  }
+
   .crt-scanlines {
     background: linear-gradient(
       rgba(18, 16, 16, 0) 50%,
