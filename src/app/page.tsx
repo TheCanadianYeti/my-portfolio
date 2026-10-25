@@ -13,6 +13,7 @@ import { playCyberBlip, playSuccessChime } from '@/lib/sound';
 export default function Home() {
   const [activeTab, setActiveTab] = useState('home');
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
+  const [selectedResumeId, setSelectedResumeId] = useState(RESUME_OPTIONS[0].id);
 
   // Synchronize URL on initial mount & handle browser back/forward buttons
   useEffect(() => {
@@ -54,6 +55,55 @@ export default function Home() {
       document.body.style.overflow = 'unset';
     };
   }, [isResumeModalOpen]);
+
+  const renderResumeCard = (res: (typeof RESUME_OPTIONS)[number]) => (
+    <div
+      key={res.id}
+      className="border-2 border-[#1e2b4d] bg-[#050811] p-4 sm:p-5 techno-cut hover:border-[#00f0ff] transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-5 group shadow-md"
+    >
+      <div className="space-y-2 flex-1">
+        <div className="flex flex-wrap items-center gap-2.5">
+          <h4 className="text-base font-black text-white group-hover:text-[#00f0ff] transition-colors">
+            {res.title}
+          </h4>
+          <span className="text-[10px] bg-[#00f0ff]/10 text-[#00f0ff] px-2 py-0.5 border border-[#00f0ff]/40 font-extrabold techno-cut">
+            {res.badge}
+          </span>
+          <span className="text-[10px] text-zinc-500 font-bold">
+            {res.fileSize}
+          </span>
+        </div>
+
+        <p className="text-xs text-zinc-300 leading-relaxed font-medium">
+          {res.description}
+        </p>
+
+        <div className="flex flex-wrap gap-1.5 pt-1">
+          {res.skillsHighlight.map((skill, sIdx) => (
+            <span
+              key={sIdx}
+              className="text-[10px] bg-[#0a1020] text-zinc-300 px-2 py-0.5 border border-[#1e2b4d] font-semibold techno-cut"
+            >
+              {skill}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <a
+        href={res.downloadUrl}
+        download={res.fileName}
+        onClick={() => {
+          playSuccessChime();
+          setIsResumeModalOpen(false);
+        }}
+        className="w-full shrink-0 px-5 py-2.5 bg-[#00f0ff] text-[#050811] font-black text-xs techno-cut hover:bg-[#38bdf8] transition-all text-center shadow-cyber-cyan uppercase tracking-wider flex items-center justify-center gap-2 md:w-auto"
+      >
+        <span>Download PDF</span>
+        <span className="text-sm font-black">&rarr;</span>
+      </a>
+    </div>
+  );
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-[#050811] text-[#f1f5f9] font-mono antialiased selection:bg-[#00f0ff] selection:text-[#050811] relative">
@@ -230,11 +280,11 @@ export default function Home() {
           role="dialog"
           aria-modal="true"
           onClick={() => setIsResumeModalOpen(false)}
-          className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 md:p-8 overflow-y-auto"
+          className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 md:p-8 overflow-y-auto"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative max-w-2xl w-full bg-[#0a1020] border-2 border-[#00f0ff] p-6 sm:p-8 space-y-6 shadow-[0_0_40px_rgba(0,240,255,0.3)] techno-cut max-h-[90vh] overflow-y-auto"
+            className="relative max-w-2xl w-full bg-[#0a1020] border-2 border-[#00f0ff] p-4 sm:p-8 space-y-4 sm:space-y-6 shadow-[0_0_40px_rgba(0,240,255,0.3)] techno-cut max-h-[90dvh] overflow-y-auto"
           >
             {/* Header & Close Button */}
             <div className="flex items-start justify-between gap-4 pt-1 border-b border-[#1e2b4d] pb-4">
@@ -248,7 +298,7 @@ export default function Home() {
                 <h3 className="text-xl sm:text-2xl font-black text-[#00f0ff] uppercase tracking-wide">
                   SELECT RESUME TRACK
                 </h3>
-                <p className="text-xs text-zinc-300 mt-1 font-medium">
+                <p className="hidden sm:block text-xs text-zinc-300 mt-1 font-medium">
                   Select the specialized resume version tailored to your team&apos;s technical requirements:
                 </p>
               </div>
@@ -262,56 +312,30 @@ export default function Home() {
               </button>
             </div>
 
-            {/* 3 Dedicated Track Cards */}
-            <div className="space-y-4">
-              {RESUME_OPTIONS.map((res) => (
-                <div
-                  key={res.id}
-                  className="border-2 border-[#1e2b4d] bg-[#050811] p-5 techno-cut hover:border-[#00f0ff] transition-all flex flex-col md:flex-row md:items-center justify-between gap-5 group shadow-md"
+            {/* Track selector for mobile; show all resume cards on larger screens */}
+            <div className="space-y-3 lg:hidden">
+              <label className="block space-y-1.5">
+                <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">
+                  Resume track
+                </span>
+                <select
+                  value={selectedResumeId}
+                  onChange={(e) => {
+                    const selectedResume = RESUME_OPTIONS.find((res) => res.id === e.currentTarget.value);
+                    if (selectedResume) setSelectedResumeId(selectedResume.id);
+                  }}
+                  className="w-full appearance-none border border-[#00f0ff]/60 bg-[#050811] px-3 py-2.5 text-xs font-bold text-[#00f0ff] focus:border-[#00f0ff] focus:outline-none techno-cut"
                 >
-                  <div className="space-y-2 flex-1">
-                    <div className="flex flex-wrap items-center gap-2.5">
-                      <h4 className="text-base font-black text-white group-hover:text-[#00f0ff] transition-colors">
-                        {res.title}
-                      </h4>
-                      <span className="text-[10px] bg-[#00f0ff]/10 text-[#00f0ff] px-2 py-0.5 border border-[#00f0ff]/40 font-extrabold techno-cut">
-                        {res.badge}
-                      </span>
-                      <span className="text-[10px] text-zinc-500 font-bold">
-                        {res.fileSize}
-                      </span>
-                    </div>
+                  {RESUME_OPTIONS.map((res) => (
+                    <option key={res.id} value={res.id}>{res.title}</option>
+                  ))}
+                </select>
+              </label>
+              {renderResumeCard(RESUME_OPTIONS.find((res) => res.id === selectedResumeId) ?? RESUME_OPTIONS[0])}
+            </div>
 
-                    <p className="text-xs text-zinc-300 leading-relaxed font-medium">
-                      {res.description}
-                    </p>
-
-                    <div className="flex flex-wrap gap-1.5 pt-1">
-                      {res.skillsHighlight.map((skill, sIdx) => (
-                        <span
-                          key={sIdx}
-                          className="text-[10px] bg-[#0a1020] text-zinc-300 px-2 py-0.5 border border-[#1e2b4d] font-semibold techno-cut"
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <a
-                    href={res.downloadUrl}
-                    download={res.fileName}
-                    onClick={() => {
-                      playSuccessChime();
-                      setIsResumeModalOpen(false);
-                    }}
-                    className="shrink-0 px-5 py-2.5 bg-[#00f0ff] text-[#050811] font-black text-xs techno-cut hover:bg-[#38bdf8] transition-all text-center shadow-cyber-cyan uppercase tracking-wider flex items-center justify-center gap-2"
-                  >
-                    <span>Download PDF</span>
-                    <span className="text-sm font-black">&rarr;</span>
-                  </a>
-                </div>
-              ))}
+            <div className="hidden lg:block space-y-4">
+              {RESUME_OPTIONS.map(renderResumeCard)}
             </div>
           </div>
         </div>

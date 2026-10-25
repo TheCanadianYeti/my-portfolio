@@ -52,8 +52,29 @@ export default function ProjectsSection() {
           </h2>
         </div>
 
+        <label className="relative block w-full md:hidden">
+          <span className="sr-only">Filter projects by type</span>
+          <select
+            value={selectedCategory}
+            onChange={(e) => {
+              setSelectedCategory(e.target.value);
+              setSelectedTag(null);
+            }}
+            className="w-full appearance-none border border-[#00f0ff]/60 bg-[#0a1020] px-3 py-2.5 pr-10 text-xs font-bold text-[#00f0ff] focus:border-[#00f0ff] focus:outline-none techno-cut"
+          >
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat} ({getCategoryCount(cat)})
+              </option>
+            ))}
+          </select>
+          <span aria-hidden="true" className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#00f0ff]">
+            ▾
+          </span>
+        </label>
+
         {/* Filter Categories Styled as Interactive Techno Chips */}
-        <div className="flex flex-wrap gap-2 text-xs">
+        <div className="hidden md:flex flex-wrap gap-2 text-xs">
           {categories.map((cat) => {
             const isSelected = selectedCategory === cat;
             const count = getCategoryCount(cat);
