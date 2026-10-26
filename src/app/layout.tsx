@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description:
     'Portfolio for Marcus Podnar (Yeti), Sheridan College SDNE student, software developer, and network systems engineer.',
   icons: {
-    icon: '/favicon.ico',
+    icon: '/logo.png',
   },
 };
 
