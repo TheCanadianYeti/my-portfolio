@@ -1,87 +1,103 @@
-# Marcus Podnar
-### Software Developer & Network Systems Engineer
+# my-portfolio
 
-A personal portfolio built to showcase Marcus Podnar's software projects, technical experience, and skills across software development, IT systems, and networking. The site pairs a responsive cyberpunk-inspired interface with interactive project browsing and downloadable, role-specific resumes.
+A personal portfolio built to showcase software projects, technical experience, and skills across software development, IT systems, and networking.
+
+Features a responsive cyberpunk interface with interactive project browsing and downloadable role-specific resumes.
 
 ---
 
 ## Features
 
-- **Interactive portfolio sections:** Navigate Home, About, Projects, and Contact views, with matching routes such as `/projects` and `/contact`.
-- **Project archive:** Browse projects by category, filter by technology tags, and open project details and links.
-- **Three resume tracks:** Choose and download a PDF tailored to software engineering, IT support and systems, or cybersecurity and networks.
-- **Responsive techno interface:** Dark HUD styling, local Geist Mono font, and an animated Canvas background with mouse-reactive particles and click effects.
-- **Optional sound effects:** Enable or disable interface sounds from the navigation.
-- **Privacy-conscious contact form:** Compose a prefilled email in your device's email app. The form does not submit data to a server.
-- **Standalone Docker deployment:** Build and run the production app in a Node.js container.
+### Interactive portfolio views
+Navigation across Home, About, Projects, and Contact routes with deep-linking support.
+
+### Project archive
+Search and filter projects by domain categories and technology stack tags.
+
+### Role-specific resumes
+Downloadable PDF resumes tailored for Software Engineering, IT Systems, and Security tracks.
+
+### Terminal interface aesthetic
+Dark HUD styling using JetBrains Mono, Framer Motion animations, and custom canvas particle effects.
+
+### Audio interactivity
+Optional, toggleable web audio sound effects for UI interactions.
+
+### Client-side contact form
+Pre-fills mailto actions directly without processing or storing user data on external servers.
+
+### Containerized deployment
+Multi-stage Docker build optimized with Next.js standalone output.
+
+---
 
 ## Tech Stack
 
-- Next.js 14 App Router and React 18
+**Frontend**
+- Next.js 14 (App Router)
+- React 18
 - TypeScript
 - Tailwind CSS
-- Framer Motion and Lucide React
-- Node.js 20 for the included Docker image
+- JetBrains Mono
+- Framer Motion
+- Lucide React
+
+**Runtime & Infrastructure**
+- Node.js 20
+- Docker
+- Caddy
+
+---
 
 ## Getting Started
 
-### Prerequisites
-
-- Node.js 20 or later
-- npm
-
-### Installation
-
-Clone the repository and install its dependencies:
-
-```powershell
+```bash
 git clone https://github.com/TheCanadianYeti/my-portfolio.git
 cd my-portfolio
 npm install
-```
-
-Start the development server:
-
-```powershell
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open http://localhost:3000.
 
 ### Available Scripts
 
 | Command | Description |
 | :--- | :--- |
-| `npm run dev` | Start the Next.js development server |
-| `npm run build` | Create an optimized production build |
-| `npm run start` | Serve the production build |
-| `npm run lint` | Run the configured Next.js lint command |
+| `npm run dev` | Start Next.js development server with hot reloading |
+| `npm run build` | Generate optimized production build |
+| `npm run start` | Run production server |
+| `npm run lint` | Run ESLint check across source files |
 
-## Docker
+---
 
-The Dockerfile uses a multi-stage build and Next.js standalone output to create a production image:
+## Docker Deployment
 
-```powershell
+Build and run using the multi-stage Dockerfile:
+
+```bash
 docker build -t my-portfolio .
-docker run --rm -p 3000:3000 my-portfolio
+docker run -d -p 3000:3000 --name portfolio my-portfolio
 ```
 
-Then visit [http://localhost:3000](http://localhost:3000).
+Access the application at http://localhost:3000.
+
+---
 
 ## Project Structure
 
 ```text
 src/
-  app/          Next.js routes, global styles, and metadata
-  components/   Portfolio sections and interactive UI
-  config/       Personal profile, resume, and project data
-  lib/          Shared utilities such as sound effects
+  app/         Next.js App Router layout, routing, and global styles
+  components/  Modular UI components and animated sections
+  config/      Personal profiles, project data, and site configurations
+  lib/         Utility functions and audio handlers
 public/
-  resumes/      Downloadable PDF resumes by career track
+  resumes/     Static PDF assets for career tracks
 ```
 
-## Contact
+---
 
-- **GitHub:** [TheCanadianYeti](https://github.com/TheCanadianYeti)
-- **LinkedIn:** [Marcus Podnar](https://www.linkedin.com/in/marcus-podnar/)
-- **Email:** [podnar.dev@gmail.com](mailto:podnar.dev@gmail.com)
+## Author
+
+[Marcus Podnar](https://marcus.podnar.ca) · [GitHub](https://github.com/TheCanadianYeti) · [LinkedIn](https://www.linkedin.com/in/marcus-podnar)
